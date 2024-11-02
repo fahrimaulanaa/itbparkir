@@ -16,21 +16,19 @@ const geistMono = localFont({
 });
 
 export default function Home() {
-  // State untuk menyimpan input form
   const [location, setLocation] = useState("");
   const [caption, setCaption] = useState("");
   const [file, setFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false); // Tambahkan state untuk proses upload
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Cek apakah caption dan file kosong
     if (!caption && !file) {
       alert("Please provide either a caption or an image.");
       return;
     }
 
-    // Buat FormData untuk mengirim data termasuk file
     const formData = new FormData();
     formData.append("location", location);
     formData.append("caption", caption);
@@ -39,22 +37,29 @@ export default function Home() {
       formData.append("file", file);
     }
 
+    setIsUploading(true); // Set status menjadi loading
+
     try {
-      // Kirim data ke API (ubah URL dengan API tujuan Anda)
       const response = await fetch("/api/post", {
         method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        alert("Post successful!");
+        alert("Tweet Berhasil!!");
+        setTimeout(() => {
+          setIsUploading(false); // Set loading menjadi false
+          window.location.reload(); // Refresh halaman setelah 3 detik
+        }, 3000);
       } else {
         const errorData = await response.json();
         alert(`Failed to post. Error: ${errorData.detail}`);
+        setIsUploading(false);
       }
     } catch (error) {
       console.error("Error posting data:", error);
       alert("Error posting data.");
+      setIsUploading(false);
     }
   };
 
@@ -99,8 +104,10 @@ export default function Home() {
           </div>
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-24 rounded">
-            Posting!
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-24 rounded"
+            disabled={isUploading} // Menonaktifkan tombol saat sedang diupload
+          >
+            {isUploading ? "Sedang diupload..." : "Posting!"}
           </button>
         </form>
       </div>

@@ -102,6 +102,31 @@ export default function Home() {
               onChange={(e) => setFile(e.target.files[0])}
             />
           </div>
+          <div className="flex flex-col items-center space-y-2">
+            {file && (
+              <div className="relative w-64 h-64">
+                <Image
+                  src={URL.createObjectURL(file)}
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            )}
+          </div>
+            {file && (
+            <button
+              type="button"
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => setFile(null)}
+            >
+              Ganti Gambar
+            </button>
+            )}
+          <div className="flex flex-col items-center space-y-2">
+            <p className="text-sm text-gray-500">
+              Version 1.0.0
+            </p>
+          </div>
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-24 rounded"

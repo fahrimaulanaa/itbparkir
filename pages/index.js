@@ -124,7 +124,7 @@ export default function Home() {
             )}
           <div className="flex flex-col items-center space-y-2">
             <p className="text-sm text-gray-500">
-              Version 1.0.0
+              Version 1.0.1
             </p>
           </div>
           <button

@@ -37,9 +37,10 @@ export default async function postTweet(req, res) {
     }
 
     // Combine location into caption text if provided
-    let tweetText = caption || "\n\nhttps://itbparkir.vercel.app/";
+    let tweetText = `${caption} \n`;
     if (location) {
-      tweetText += `\nLokasi: ${location}`;
+      tweetText += `\n📍Lokasi: ${location}`;
+      tweetText += `\n📷Kirim Foto Ke: itbparkir.vercel.app`;
     }
 
     // Prepare tweet data
